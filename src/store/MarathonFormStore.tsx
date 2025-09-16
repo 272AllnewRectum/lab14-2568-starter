@@ -6,6 +6,13 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
   plan: "funrun",
   gender: "male",
   email: "",
+  password: "",
+  confpassword: "",
+  total: 500,
+  coupon: "",
+  havecoupon: false,
+  correct: "",
+
   setFname: (fname) =>
     set(() => ({
       fname: fname,
@@ -26,7 +33,49 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
     set(() => ({
       email: _email,
     })),
+  setPassword:(_password) =>
+    set(() => ({
+      password: _password,
+    })),
+  setconfpassword:(_confpassword) =>
+    set(() => ({
+      confpassword : _confpassword,
+    })),
+  setCoupon: (_coupon) =>
+    set(() => ({
+      coupon : _coupon,
+    })),
+  sethaveCoupon: (_havecoupon) =>
+      set(() => ({
+        havecoupon : !_havecoupon,
+      })),
   // Function ชื่อ discountCupon คำนวณ total ตรงนี้
+  discountCoupon: (type: string , correct = "", have: boolean) => {
+    let val = 500;
+    switch (type) {
+      case "funrun":
+        val = 500;
+        break;
+    case "mini":
+        val = 800;
+        break;
+    case "half":
+        val = 1200;
+        break;
+    case "full":
+        val = 1500;
+        break;
+      default:
+        val = 500;
+        break;
+    }
+    if(correct == "CMU2025" && have){
+      val = val * 7 / 10
+    }
+    set(() => ({
+    total: val
+    }))},
+
   reset: () =>
     set({
       fname: "",
@@ -34,5 +83,11 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
       plan: "funrun",
       gender: "male",
       email: "",
+      password: "",
+      confpassword: "",
+      total: 500,
+      coupon: "",
+      havecoupon: false,
+      correct: "",
     }),
 }));
